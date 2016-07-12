@@ -1,0 +1,21 @@
+
+
+* Questions
+
+** Can I detect something like lattice and use a fixed point to detect where to stop with increasing #procs?
+
+** How is it with types, does receives and sends care about data?
+For example, Aislinn doesn't care.
+
+* Examples
+** a
+An easy example where the zeroth process send a data to the first one.
+For 2,3,... number of processes the program is correct.
++For only one process the program is incorrect.+
+** b
+Similar as 'a' but enclosed inside a cycle.
+** c
+Communication enclosed also inside cycle, nevertheless now it is dependent on
+cycle value.
+** c-f1
+Well this one is slightly modified and results in deadlock
