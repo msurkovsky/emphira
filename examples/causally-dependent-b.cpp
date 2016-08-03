@@ -18,7 +18,6 @@ int main (int argc, char **argv) {
     MPI_Recv(&a, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     MPI_Recv(&b, 1, MPI_INT, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     int result = a - b;
-    // printf("Result a - b = %d\n", result);
     printf("%d\n", result);
   } else if (rank == 1) {
     int a = 9;
