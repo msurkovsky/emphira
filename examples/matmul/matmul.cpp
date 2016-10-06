@@ -62,7 +62,8 @@ int main (int argc, char **argv) {
 
     matrix_c = new Matrix(matrix_a.rows(), matrix_b.cols());
 
-    for (int p = 1; p < size; p++) {
+    for (int p = size - 1; p >= 0; p--) { // descent to process zero to have
+                                          // right sub-matrices on it
       int i = p / n;
       int j = p % n;
       int k = ceil((2 * n - 1 - i - j) % n);
@@ -77,53 +78,32 @@ int main (int argc, char **argv) {
         sub_cols
       );
 
-      data_buff[0] = new char[sub_a.get_byte_size()];
-      sub_a.serialize(data_buff[0]);
-      // TODO: may have a problem with standard send (blocking one)
-      MPI_Send(data_buff[0], sub_a.get_byte_size(), MPI_BYTE, p, A, MPI_COMM_WORLD);
-
       // B(k, i)
       sub_rows = matrix_b.rows() / n;
       sub_cols = matrix_b.cols() / n;
       sub_b = matrix_b.extract_n(
-        k * sub_rows,
-        i * sub_rows,
-        sub_rows,
-        sub_cols
-      );
+                                 k * sub_rows,
+                                 i * sub_rows,
+                                 sub_rows,
+                                 sub_cols
+                                 );
 
-      data_buff[1] = new char[sub_b.get_byte_size()];
-      sub_b.serialize(data_buff[1]);
-      MPI_Send(data_buff[1], sub_b.get_byte_size(), MPI_BYTE, p, B, MPI_COMM_WORLD);
+      if (p > 0) { // zero process does not need to send data to itself
+        // send A submatrix
+        data_buff[0] = new char[sub_a.get_byte_size()];
+        sub_a.serialize(data_buff[0]);
+        MPI_Send(data_buff[0], sub_a.get_byte_size(), MPI_BYTE, p, A, MPI_COMM_WORLD);
+
+        // send B submatrix
+        data_buff[1] = new char[sub_b.get_byte_size()];
+        sub_b.serialize(data_buff[1]);
+        MPI_Send(data_buff[1], sub_b.get_byte_size(), MPI_BYTE, p, B, MPI_COMM_WORLD);
+      }
     }
 
-    // extract a matrix for zero
-    int p = 0;
-    int i = p / n;
-    int j = p % n;
-    int k = ceil((2 * n - 1 - i - j) % n);
-
-    int sub_rows = matrix_a.rows() / n;
-    int sub_cols = matrix_a.cols() / n;
-    // A(j, k)
-    sub_a = matrix_a.extract_n(
-      j * sub_rows,
-      k * sub_rows,
-      sub_rows,
-      sub_cols
-    );
-
-    sub_rows = matrix_b.rows() / n;
-    sub_cols = matrix_b.cols() / n;
-    // B(k, i)
-    sub_b = matrix_b.extract_n(
-      k * sub_rows,
-      i * sub_rows,
-      sub_rows,
-      sub_cols
-    );
-
   } else {
+    // receive the data on other processes
+
     MPI_Status status;
     MPI_Probe(0, A, MPI_COMM_WORLD, &status);
     int msg_size;
@@ -141,11 +121,15 @@ int main (int argc, char **argv) {
     MPI_Recv(data_buff[1], msg_size, MPI_BYTE, 0, B, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     sub_b.deserialize(data_buff[1]);
   }
+  // computation ===============================================================
+
+  // initialize sub_c to right size and fill it by zeros
   sub_c = Matrix(sub_a.rows(), sub_b.cols());
 
-  // computation ===============================================================
+  // first-step multiplication
   sub_c += sub_a * sub_b;
 
+  // exchange of data
   MPI_Request requests[2];
   MPI_Status statuses[2];
   for (int i = 1; i < n; i++) { // from 1 because the first round is done
