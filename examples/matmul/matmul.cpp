@@ -12,12 +12,23 @@ int next_a(int p, int n) {
   return ((r + 1) % n) * n + c;
 }
 
+int prev_a(int p, int n) {
+  int r = p / n;
+  int c = p % n;
+  return ((((r - 1) % n) + n) % n) * n + c;
+}
+
 int next_b(int p, int n) {
   int r = p / n;
   int c = p % n;
   return r * n + ((c + 1) % n);
 }
 
+int prev_b(int p, int n) {
+  int r = p / n;
+  int c = p % n;
+  return r * n + ((((c - 1) % n) + n) % n);
+}
 int main (int argc, char **argv) {
   enum tags_t { A, B, C };
 
@@ -156,7 +167,7 @@ int main (int argc, char **argv) {
                             // not to rewrite the first one
               sub_a.get_byte_size(),
               MPI_BYTE,
-              MPI_ANY_SOURCE, // TODO: I know the originator process
+              prev_a(rank, n), // use exact source because there is only one
               A,
               MPI_COMM_WORLD,
               &requests[1]);
@@ -176,7 +187,7 @@ int main (int argc, char **argv) {
     MPI_Irecv(data_buff[1],
               sub_b.get_byte_size(),
               MPI_BYTE,
-              MPI_ANY_SOURCE, // TODO:
+              prev_b(rank, n),
               B,
               MPI_COMM_WORLD,
               &requests[1]);
