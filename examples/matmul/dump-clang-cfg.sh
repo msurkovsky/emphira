@@ -1,0 +1,1 @@
+clang++ -cc1 -analyze -analyzer-checker=debug.DumpCFG matmul.cpp -I /usr/include/mpi -I /mnt/data/install/clang-llvm/build/lib/clang/4.0.0/include/ -I /usr/include/c++/v1 -I /usr/include -I /usr/include/x86_64-linux-gnu/ -std=c++11 2> matmul.cfg-dump
