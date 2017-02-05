@@ -29,6 +29,7 @@ int prev_b(int p, int n) {
   int c = p % n;
   return r * n + ((((c - 1) % n) + n) % n);
 }
+
 int main (int argc, char **argv) {
   enum tags_t { A, B, C };
 
@@ -82,11 +83,11 @@ int main (int argc, char **argv) {
       sub_rows = matrix_b.rows() / n;
       sub_cols = matrix_b.cols() / n;
       sub_b = matrix_b.extract_n(
-                                 k * sub_rows,
-                                 i * sub_rows,
-                                 sub_rows,
-                                 sub_cols
-                                 );
+        k * sub_rows,
+        i * sub_rows,
+        sub_rows,
+        sub_cols
+      );
 
       if (p > 0) { // zero process does not need to send data to itself
         // send A submatrix
