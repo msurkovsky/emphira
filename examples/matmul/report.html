@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aislinn report</title>
+<style>
+html, h1, h2, h3, h4, h5, h6, body, div, span,
+applet, object, iframe, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+fieldset, form, label, legend,
+dl, dt, dd, ol, ul, li,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+body {
+	line-height: 1;
+	color: black;
+	background: white;
+	font: 14px/1.8em 'Open Sans', Helvetica, Arial, Helvetica, sans-serif;
+	color: #444;
+	background: #fff;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #000;
+	line-height: 1.2em;
+	margin-bottom: 0.3em;
+}
+
+h2, h3 {
+	margin-top: 1em;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h3 {
+	font-size: 1.3em;
+	margin-top: 2em;
+}
+
+h4 {
+	font-size: 1.3em;
+	margin-top: 1.2em;
+}
+
+p {
+	margin-bottom: 1em;
+}
+
+b, strong {
+	font-weight: bold;
+}
+
+i, em {
+	font-style: italic;
+}
+
+header, section, footer,
+aside, nav, article, figure {
+	display: block;
+}
+
+#header {
+    background: #025588;
+	padding-top: 2em;
+	color: #afe1da;
+}
+
+#header h1 {
+	font-size: 2.2em;
+	font-weight: bold;
+    margin: 0px;
+    margin-left: 1em;
+    padding: 0px;
+	color: #dff1fa;
+}
+
+#header .version {
+    font-size: 80%;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 3em;
+}
+
+section
+{
+  overflow: hidden;
+  margin: 0 auto 0 auto;
+  background-color: #EEEEEE;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
+
+/*
+table, tr, td {
+    border: black solid 1px;
+}
+
+td {
+    padding: 0.5em;
+    text-align: center;
+}*/
+
+table.namevalue {
+	border: none;
+	text-align: left;
+	width: 99%;
+}
+
+.namevalue tr {
+}
+
+.namevalue td {
+	background-color: #DDD;
+	padding: 0.2em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+td.name {
+	width: 25em;
+    font-weight: bold;
+}
+
+td.value {
+	font-family: monospace;
+}
+
+td.longname {
+    font-weight: bold;
+    border-bottom: none;
+}
+
+.longvalue {
+    font-weight: normal;
+	font-family: monospace;
+    border-top: none;
+}
+
+pre {
+	font-family: monospace;
+}
+
+table.events {
+    border-collapse: collapse;
+}
+
+.events thead {
+    text-align: center;
+}
+
+.events td {
+    border: 1px solid black;
+}
+
+td .t-ndsync {
+    background-color: #404040;
+    color: #EEE;
+}
+
+td .t-wait {
+    background-color: orange;
+}
+
+td .t-test {
+    background-color: #CCCC00;
+}
+
+td .t-send {
+    background-color: lightgreen;
+}
+
+td .t-recv {
+    background-color: lightblue;
+}
+
+td .t-coll {
+    background-color: #FF5555;
+}
+
+.key {
+    color: gray;
+    font-size: smaller;
+}
+
+
+</style>
+</head>
+<body>
+
+<header id="header">
+    <h1>Aislinn report</h1>
+    <div class="version">v0.5.0</div>
+</header>
+
+<section>
+	<h2>Program</h2>
+	<table class="namevalue">
+		
+		<tr>
+			<td class="name">Program arguments<td class="value">./a.out
+		
+		<tr>
+			<td class="name">Number of processes<td class="value">4
+		
+	</table>
+</section>
+
+<section>
+	<h2>Analysis output</h2>
+	<table class="namevalue">
+		<tr>
+			<td class="name">Errors (details below)
+					<td class="value" style="background-color: lightgreen;">No errors found
+		
+		<tr>
+			<td class="name"># of possible outputs on stdout (per rank)<td class="value">1,1,1,1
+		
+		<tr>
+			<td class="name"># of possible outputs on stderr (per rank)<td class="value">1,1,1,1
+		
+		<tr>
+			<td class="name">Deterministic unallocated memory (bytes)<td class="value">291008
+		
+		<tr>
+			<td class="name">Sizes of unicast messages (bytes)<td class="value">[48]
+		
+	</table>
+</section>
+
+<section>
+	<h2>Analysis configuration</h2>
+	<table class="namevalue">
+		
+		<tr>
+			<td class="name">Stdout mode<td class="value">capture
+		
+		<tr>
+			<td class="name">Stderr mode<td class="value">capture
+		
+		<tr>
+			<td class="name">Send protocol<td class="value">full
+		
+		<tr>
+			<td class="name">Search strategy<td class="value">bfs
+		
+	</table>
+</section>
+
+<section>
+	<h2>Analysis details</h2>
+	<table class="namevalue">
+		
+		<tr>
+			<td class="name">Start of verification<td class="value">2016-10-06 22:38:52.752946
+		
+		<tr>
+			<td class="name">Execution time<td class="value">0:00:00.510965
+		
+		<tr>
+			<td class="name">Number of nodes in statespace<td class="value">13
+		
+		<tr>
+			<td class="name">Number of MPI calls processed during the analysis<td class="value">78
+		
+		<tr>
+			<td class="name">Statespace fully explored<td class="value">True
+		
+		<tr>
+			<td class="name">Nodes per seconds<td class="value">25.4420557181
+		
+	</table>
+</section>
+
+
+
+
+
+
+
+</body>
